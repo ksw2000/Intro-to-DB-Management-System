@@ -1,5 +1,13 @@
 # Chapter 3 Introduction to SQL
 
+## Overview
+
+本章在介紹 SQL 操作，因為太抽象了，所以以 SQLite 實作
+
+使用軟體：[DB Browder for SQLite](https://sqlitebrowser.org/)
+
+![](./src/3-1.png)
+
 ## History
 
 IBM **Sequel language** developed as part of System R project at the IBM.
@@ -18,7 +26,7 @@ Commercial system offer most, if not all, SQL-92 features, plus varying feature 
 
 ## SQL Parts
 
-1. DDL:(Data define language) Define relational schema
+1. DDL: (Data define language) Define relational schema
    1. structure
    2. integrity
    3. view (定義哪些資料可以給別人看，哪些資料不能給別人看)
@@ -74,13 +82,14 @@ Commercial system offer most, if not all, SQL-92 features, plus varying feature 
   | 4107056006 | 游〇瑋 |  資工系   |  3   | 2020 |
   | 4107056003 | 林〇安 |  資工系   |  0   | 2019 |
   | 4107056002 | 許〇全 |  資工系   |  1   | 2019 |
+  | 4106030323 |  〇毅  |  生技系   |  2   | 2020 |
 
   college:
 
   | dept\_name | college  |
   | ---------- | -------- |
-  | 資工系     | 電資學院 |
-  | 資電學士班 | 電資學院 |
+  | 資工系     | 資電學院 |
+  | 資電學士班 | 資電學院 |
   | 生技系     | 農資學院 |
 
 + drop table
@@ -109,11 +118,11 @@ Commercial system offer most, if not all, SQL-92 features, plus varying feature 
 
   Dropping of attributes not supported by many databases.
 
-+ create view
++ create view ── 該範例附有 SQLite 實作
 
   ```sql
   create view pervert_2020(id, name, college)
-  as select id, name, college,
+  as select id, name, college
   from pervert, college
   where pervert.dept_name = college.dept_name and pervert.yy = 2020
   ```
@@ -122,9 +131,10 @@ pervert_2020:
 
 |     ID     |  name  | college  |
 | :--------: | :----: | :------: |
-| 4107056002 | 許〇全 | 電資學院 |
-| 4107056003 | 林〇安 | 電資學院 |
-| 4107056006 | 游〇瑋 | 電資學院 |
+| 4107056002 | 許〇全 | 資電學院 |
+| 4107056003 | 林〇安 | 資電學院 |
+| 4107056006 | 游〇瑋 | 資電學院 |
+| 4106030323 |  〇毅  | 農資學院 |
 
 ### DML:  Basic Query Structure
 
@@ -148,10 +158,11 @@ pervert_2020:
 
   |  name  |
   | :----: |
-  | 許〇全 |
+  |  〇毅  |
+  | 林〇安 |
   | 林〇安 |
   | 游〇瑋 |
-  | 林〇安 |
+  | 許〇全 |
   | 許〇全 |
 
   SQL **allows duplicates** in relations as well as in query results (考量效能)
@@ -164,13 +175,14 @@ pervert_2020:
 
   |  name  |
   | :----: |
+  |  〇毅  |
   | 許〇全 |
   | 林〇安 |
   | 游〇瑋 |
 
 ##### self-join
 
-consider the table *emp-super*
+consider the table *emp-super*  ── 該範例附有 SQLite 可供實作
 
 | person | supervisor |
 | :----: | :--------: |
@@ -185,11 +197,19 @@ consider the table *emp-super*
   SELECT supervisor FROM `emp-super` WHERE person = "Bob" 
   ```
 
+  | supervisor |
+  | :--------: |
+  |   Alice    |
+
 + Find the supervisor of the supervisor of "Bob"
 
   ```sql
-  SELECT supervisor FROM `emp-super` as r1, `emp-super` as r2 WHERE r1.person = "Bob" and r1.supervisor = r2.person
+  SELECT r2.supervisor FROM `emp-super` as r1, `emp-super` as r2 WHERE r1.person = "Bob" and r1.supervisor = r2.person
   ```
+
+  | supervisor |
+  | :--------: |
+  |   David    |
 
 + Can you find ALL the supervisors (direct and indirect) of "Bob"?
 
@@ -223,7 +243,7 @@ consider the table *emp-super*
 
 ##### order
 
-ASC: ascending DESC: descending
+ASC: ascending ／ DESC: descending
 
 ```sql
 SELECT name FROM pervert ORDER BY rank ASC
@@ -247,6 +267,11 @@ Finding rank ≥ 0 and rank ≤ 3
 SELECT name, college FROM pervert, college WHERE
 (pervert.dept_name, yy) = (college.dept_name, 2019);
 ```
+
+|  name  | college  |
+| :----: | :------: |
+| 林〇安 | 資電學院 |
+| 許〇全 | 資電學院 |
 
 ##### Set operation
 
@@ -307,17 +332,17 @@ SELECT name FROM pervert WHERE dept_name = "生技系"
 
 看似一樣的條件式確會得到不同的結果，因此，**我們要改用三態邏輯來實作以避免這種情況發生**
 
-| AND  | T    | U    | F    |
-| ---- | ---- | ---- | ---- |
-| T    | T    | U    | F    |
-| U    | U    | U    | F    |
-| F    | F    | F    | F    |
+| AND   | T    | U    | F    |
+| ----- | ---- | ---- | ---- |
+| **T** | T    | U    | F    |
+| **U** | U    | U    | F    |
+| **F** | F    | F    | F    |
 
-| OR   | T    | U    | F    |
-| ---- | ---- | ---- | ---- |
-| T    | T    | T    | T    |
-| U    | T    | U    | U    |
-| F    | T    | U    | F    |
+| OR    | T    | U    | F    |
+| ----- | ---- | ---- | ---- |
+| **T** | T    | T    | T    |
+| **U** | T    | U    | U    |
+| **F** | T    | U    | F    |
 
 | NOT  |      |
 | ---- | ---- |
