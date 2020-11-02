@@ -180,7 +180,7 @@ pervert_2020:
   | 林〇安 |
   | 游〇瑋 |
 
-##### self-join
+##### Self-join
 
 consider the table *emp-super*  ── 該範例附有 SQLite 可供實作
 
@@ -215,7 +215,7 @@ consider the table *emp-super*  ── 該範例附有 SQLite 可供實作
 
   You need a recursive query language, SQL 做不到 (要使用 logic program)
 
-##### string operation
+##### String operation
 
 + percent (%) The % character matches any substring. 
 
@@ -241,7 +241,7 @@ consider the table *emp-super*  ── 該範例附有 SQLite 可供實作
   + _ _ _ % matches any string of at least three characters
 
 
-##### order
+##### Order
 
 ASC: ascending ／ DESC: descending
 
@@ -253,7 +253,7 @@ SELECT name FROM pervert ORDER BY rank DESC
 
 #### Where
 
-##### between
+##### Between
 
 ```sql
 SELECT name FROM pervert WHERE rank BETWEEN 0 and 3
@@ -299,26 +299,27 @@ SELECT name FROM pervert WHERE dept_name = "生技系"
 
 ##### Null values
 
-> It is possible for tuples to have a null value, denoted by null, for some of their attributes.
-> null signifies an unknown value or that a value does not exist.
-> The result of any arithmetic expression involving null is null.
->
-> > 5 + null = null
->
-> The predicate `is null` can be used to check null values
->
+It is possible for tuples to have a null value, denoted by null, for some of their attributes.
+null signifies an unknown value or that a value does not exist.
+The result of any arithmetic expression involving null is null.
+
+> 5 + null = null
+
+The predicate `is null` can be used to check null values
+
 > ```sql
 > SELECT name FROM pervert WHERE rank is null
 > ```
 >
-> `rank = null` doesn't work because `anything = null` is FALSE 
->
-> All of below return FALSE
+> `rank = null` doesn't work because `anything = null` is `FALSE`. All of below return FALSE
 >
 > + 5 < null
-> + null <> null
->
+>+ null <> null
 > + null = null
+> 
+> 在沒有定義 unknown 的情況下是按照上面的規則，實際上這些都會被視為 unknown，而 unknown 解析到最後則會視為 FALSE
+
+**考慮以下情況**
 
 如果 rank 欄位中有一筆資料是 null
 
@@ -360,11 +361,9 @@ SELECT name FROM pervert WHERE dept_name = "生技系"
 
 #### Aggregate Functions
 
-+ avg
-+ min
-+ max
-+ sum
-+ count: number of values
+> `avg` `min` `max` `sum` `count`
+>
+> count: 計算符合的數量
 
 ```sql
 SELECT avg(rank) FROM pervert WHERE yy = 2019
@@ -404,6 +403,8 @@ SELECT yy, name, COUNT(*) as num FROM pervert GROUP BY yy
 ERROR: 因為 name 不在 Group name 裡面
 ```
 
+<mark>實際實作時並不會出錯，有待確認</mark> [See: StackOverflow](https://stackoverflow.com/questions/19601948/must-appear-in-the-group-by-clause-or-be-used-in-an-aggregate-function)
+
 ##### Having
 
 ```sql
@@ -414,13 +415,15 @@ SELECT yy, COUNT(*) as num FROM pervert GROUP BY yy HAVING num > 2
 | ---- | ---- |
 | 2020 | 4    |
 
-##### Nested Subqueries
+#### Nested Subqueries & Set Membership
 
-+ 查找 2019資工噁男 及 2020生技噁男
+##### in
+
++ 查找 2019資工噁男和2020生技噁男
 
 ```sql
-SELECT DISTINCT name FROM pevert
-WHERE yy = 2019 and dept_name = '資工系' and
+SELECT DISTINCT name FROM pervert
+WHERE yy = 2019 and dept_name = '資工系' or
 name in (
 	SELECT name
     FROM pervert
@@ -428,5 +431,76 @@ name in (
 )
 ```
 
-##### Some
+|  name  |
+| :----: |
+|  〇毅  |
+| 林〇安 |
+| 許〇全 |
+
++ 查找 2020 噁男但他不叫 "林〇安" 也不叫 "許〇全"
+
+```sql
+SELECT DISTINCT name FROM pervert
+WHERE yy = 2020 and name not in ("林〇安", "許〇全")
+```
+
+|  name  |
+| :----: |
+|  〇毅  |
+| 游〇瑋 |
+
++ 查找所有其所屬科系之學院有「電」這個字
+
+```sql
+SELECT DISTINCT name FROM pervert
+WHERE (dept_name) in (
+	SELECT dept_name FROM college WHERE college.college LIKE '%電%'
+)
+```
+
+|  name  |
+| :----: |
+| 林〇安 |
+| 游〇瑋 |
+| 許〇全 |
+
+Another example in ppt.
+
++ Find the total number of (distinct) students who have taken course sections taught by the instructor with ID 10101
+
+```sql
+SELECT COUNT(DISTINCT ID) From takes
+WHERE(course_id, sec_id, semester, year) in (
+    SELECT course_id, sec_id, semester, year
+	FROM teaches
+	WHERE teaches.ID= 10101
+);
+```
+
+---
+
+##### some
+
+Table birthday
+
+|     ID     | Month | Date |
+| :--------: | :---: | :--: |
+| 4107056002 | null  | null |
+| 4107056003 |  10   |  14  |
+| 4107056006 |   8   | null |
+| 4106030323 |       |      |
+
+
+
+##### all
+
+
+
+##### with
+
+
+
+
+
+
 
