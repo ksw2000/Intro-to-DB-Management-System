@@ -105,19 +105,13 @@ Commercial system offer most, if not all, SQL-92 features, plus varying feature 
   + change a table's schema by adding new attributes or deleting existing attributes
 
   ```sql
-  alter table r add A D
+  alter table table_name add column_name datatype
+  
+alter table table_name drop column_name
   ```
 
-  where A is the name of attribute to be added to relation r and D is the domain of A
-
-  ```sql
-  alter table r drop A
-  ```
-
-  where A is the name of an attribute of relation r
-
-  Dropping of attributes not supported by many databases.
-
+  Dropping of attributes are not supported by many databases.
+  
 + create view ── 該範例附有 SQLite 實作
 
   ```sql
@@ -487,8 +481,16 @@ Table birthday
 | :--------: | :---: | :--: |
 | 4107056002 | null  | null |
 | 4107056003 |  10   |  14  |
-| 4107056006 |   8   | null |
-| 4106030323 |       |      |
+| 4107056006 |   8   |  30  |
+| 4106030323 |   6   |  15  |
+| 4107056027 |  11   |  27  |
+
+```sql
+SELECT ID FROM birthday
+WHERE Month > SOME(
+	SELECT MONTH FROM birthday 
+)
+```
 
 
 
@@ -498,7 +500,43 @@ Table birthday
 
 ##### with
 
++ The with clause provides a way of defining a temporary relation whose definition is avaliable only the query in which the with clause occurs.
 
++ with 類似 view, view 存在 data dictionary 裡面, with 則是 temprory 的 view, with 的 
+
+```sql
+
+```
+
+
+
+##### exists
+
++ 回傳 true / false
++ 查找其系所所屬之院含有「電」的噁男的名字
+
+```sql
+SELECT DISTINCT name FROM pervert
+WHERE exists(
+	SELECT * FROM college WHERE college.dept_name = pervert.dept_name
+    and
+    college LIKE '%電%'
+)
+```
+
+|  name  |
+| :----: |
+| 林〇安 |
+| 游〇瑋 |
+| 許〇全 |
+
+##### unique
+
++ The unique construct whether a subquery has any duplicate tuples in its result
+
+
+
+##### scala subquery
 
 
 
