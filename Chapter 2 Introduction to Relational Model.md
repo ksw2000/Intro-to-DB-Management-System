@@ -2,38 +2,30 @@
 
 中興噁男排名 (pervert table)
 
-| ID         | name | dept_name | rank |
-|:----------:|:----:|:---------:|:----:|
-| 4106030323 | 〇毅   | 小生技系      | 2    |
-| 4107056003 | 林〇安  | 大資工系      | 1    |
-| 4107056002 | 許〇全  | 大資工系      | 3    |
-| 4107056012 | 黃〇凱  | 大資工系      | 8    |
+|     ID     |  name  | dept_name | rank |
+| :--------: | :----: | :-------: | :--: |
+| 4107056002 | 許〇全 | 大資工系  |  0   |
+| 4107056003 | 林〇安 | 大資工系  |  1   |
+| 4106030323 |  〇毅  | 小生技系  |  2   |
 
 學系學院對照表 (college table)
 
-| dept\_name | college |
-| ---------- | ------- |
-| 大資工系       | 資電學院    |
-| 資電學士班      | 資電學院    |
-| 小生技系       | 農資學院    |
+| dept\_name   | college    |
+| ------------ | ---------- |
+| 大資工系     | 大資電學院 |
+| 小資電學士班 | 大資電學院 |
+| 小生技系     | 小農資學院 |
 
-## Relation Schema and Instance
+## Structure of Relational Databases
 
-+ A1, A2, A3, ... are attributes
-
-+ R = (A1, A2, A3, ... ,An) is a relation schema
-  
-  + e.g.
-    
-    > pervert = (ID, name, dept\_name, rank)
-
-### Attributes
-
-+ The set of allowed values for each attribute is called the **domain of the attribute**.
-  
-  > domain 這個術語如同程式語言常說的 datatype
-
-+ Attribute values are (normally) required to be atomic
+> pervert = (ID, name, dept\_name, rank)
+>
+> R = (A1, A2, A3, ... ,An) is a relation schema
+> A1, A2, A3, ... are attributes
++ The set of allowed values for each attribute is called the **domain of the attribute**.(domain 這個術語如同程式語言常說的 datatype)
++ Attribute values are (normally) required to be atomic.
++ **null** is a member of every domain. Indicated that the value is unknown(稍後介紹)
++ Relations are unordered.
 
 ## Database Schema
 
@@ -47,20 +39,17 @@
   
   + instance:
     
-    | ID         | name | dept_name | rank |
-    |:----------:|:----:|:---------:|:----:|
-    | 4106030323 | 〇毅   | 小生技系      | 2    |
-    | 4107056003 | 林〇安  | 大資工系      | 1    |
-    | 4107056002 | 許〇全  | 大資工系      | 3    |
-    | 4107056012 | 黃〇凱  | 大資工系      | 8    |
-
-**↑表2-1**
+  + |     ID     |  name  | dept_name | rank |
+    | :--------: | :----: | :-------: | :--: |
+    | 4107056002 | 許〇全 | 大資工系  |  0   |
+    | 4107056003 | 林〇安 | 大資工系  |  1   |
+    | 4106030323 |  〇毅  | 小生技系  |  2   |
 
 ## Keys
 
 > 用來區別資料用的，比如組合語言中的 address, 物件導向中的 OID，資料庫中的 Key 就是一種 naming schema
 
-+ Let $K \subset R$
++ Let $K \subseteq R$
 
 + K Is a <mark>superkey</mark> of R if values for **K** are sufficient to identify a unique tuple of each possible relation r(R) i.e. to name a tuple in a relation
   
@@ -87,11 +76,11 @@
   
   + e.g. pervert table 中的 dept\_name 是來自 department table 的 foreign key
 
-| dept\_name | college |
-| ---------- | ------- |
-| 大資工系       | 資電學院    |
-| 資電學士班      | 資電學院    |
-| 小生技系       | 農資學院    |
+| dept\_name   | college    |
+| ------------ | ---------- |
+| 大資工系     | 大資電學院 |
+| 小資電學士班 | 大資電學院 |
+| 小生技系     | 小農資學院 |
 
 another example:
 
@@ -101,7 +90,7 @@ takes 中的 <u>id</u> 是 foreign key, advisor 的 <u>s\_id</u> 是 foreign key
 
 ## Relational Module
 
-> 1. structure 
+> 1. structure (建立table用的)
 > 
 > 2. query language (尋找資料用的又分兩類)
 >    
@@ -111,43 +100,40 @@ takes 中的 <u>id</u> 是 foreign key, advisor 的 <u>s\_id</u> 是 foreign key
 
 "Pure" language: (Language module)
 
-1. relational algebra (RA)
+1. **Relational algebra (RA)**
    
-   > 透過運算得到新的東西
-   > 
-   > relational algebra 基本運算單位就是一個 set
-   > 
-   > 比如做交集、聯集
+   > 透過運算得到新的東西 relational algebra 基本運算單位就是一個 set 比如做交集、聯集
    > 
    > e.g. 
    > 
    > > R.A.: ∏ name(σ dept_name='cs'(instructor)) Λ salary > 10⁵
-
-2. relational calculus
    
+2. Relational calculus
+
    > 透過條件的方式來選取資料
-   
-   1. Tuple relational calculus (一筆資料)
-      
-      e.g.
-      
-      > T.R.C.: {t.name| t ε instructor }
-   
-   2. Domain relational calculus (一欄資料)
-      
-      e.g.
-      
-      > D.R.C.: {<n> | <i, n, d, s> ε instructor (ID, name, dept_name, salary) Λ dept\_name='cs' salary ≥ 10⁵}
+   >
+   > **2-1 Tuple relational calculus** (一筆資料)
+   >
+   > e.g.
+   >
+   > > T.R.C.: {t.name| t ε instructor }
+   >
+   > **2-2 Domain relational calculus** (一欄資料)
+   >
+   > e.g.
+   >
+   > > D.R.C.: {<n> | <i, n, d, s> ε instructor (ID, name, dept_name, salary) Λ dept\_name='cs' salary ≥ 10⁵}
 
-The above 3 pure languages are **not really** equivalent in computing power. e.g. 如果你要用表示 R.A. 表示 
+
+The above 3 pure languages (relational algebra, tuple relational calculus, domain relational calculus) are **not really** equivalent in computing power. 一般的情況下這三個 pure languages 是 equivalent 只有在表示不在範圍內的資料時 R.A. 會無法表示
+
+e.g. 如果你要用表示 R.A. 表示 
 
 > T.R.C {¬t | t ε instructor}
 
-一般的情況下這三個 pure languages 是 equivalent 只有在表示不在範圍內的資料時 R.A. 會無法表示
-
 ## Relational Algebra
 
-six basic operation
+six basic operations
 
 + select: σ 
 
@@ -169,16 +155,11 @@ The "select" operation selects tuples that satisfy a given predicate.
 
 + p is called the **selection predicate**
 
-| ID         | name | dept_name | rank |
-|:----------:|:----:|:---------:|:----:|
-| 4106030323 | 〇毅   | 小生技系      | 2    |
-| 4107056003 | 林〇安  | 大資工系      | 1    |
-| 4107056002 | 許〇全  | 大資工系      | 3    |
-| 4107056012 | 黃〇凱  | 大資工系      | 8    |
-
 Query: 
+$$
+σ_{name="林〇安"}\ (pervert)
+$$
 
-> $σ_{name="林〇安"}\ (pervert)$
 
 Result:
 
@@ -198,25 +179,18 @@ A unary operation that returns its argument relation, with certain attributes le
 
 + **Duplicated rows removed from result**, since relations are sets.
 
-| ID         | name | dept_name | rank |
-|:----------:|:----:|:---------:|:----:|
-| 4106030323 | 〇毅   | 小生技系      | 2    |
-| 4107056003 | 林〇安  | 大資工系      | 1    |
-| 4107056002 | 許〇全  | 大資工系      | 3    |
-| 4107056012 | 黃〇凱  | 大資工系      | 8    |
-
 Query:
 
-> $∏_{name, rank}(r)$
-
+$$
+∏_{name, rank}(pervert)​
+$$
 Result:
 
-| name | rank |
-|:----:|:----:|
-| 〇毅   | 2    |
-| 林〇安  | 1    |
-| 游〇瑋  | 3    |
-| 黃〇凱  | 8    |
+|  name  | rank |
+| :----: | :--: |
+| 許文全 |  0   |
+| 林〇安 |  1   |
+|  〇毅  |  2   |
 
 ### Cartesian-Product Operation X
 
@@ -224,24 +198,22 @@ The Cartesian-Product Operation (denoted by X) allows us to combine information 
 
 Query:
 
-> pervert X college
-
+$$
+pervert\ X\ college
+$$
 Result:
 
-| ID         | name | pervet.dept | rank | college.dept | college |
-|:----------:|:----:|:-----------:|:----:| ------------ | ------- |
-| 4106030323 | 〇毅   | 小生技系        | 2    | 大資工系         | 資電學院    |
-| 4106030323 | 〇毅   | 小生技系        | 2    | 資電學士班        | 資電學院    |
-| 4106030323 | 〇毅   | 小生技系        | 2    | 小生技系         | 農資學院    |
-| 4107056003 | 林〇安  | 大資工系        | 1    | 大資工系         | 資電學院    |
-| 4107056003 | 林〇安  | 大資工系        | 1    | 資電學士班        | 資電學院    |
-| 4107056003 | 林〇安  | 大資工系        | 1    | 小生技系         | 農資學院    |
-| 4107056002 | 許〇全  | 大資工系        | 3    | 大資工系         | 資電學院    |
-| 4107056002 | 許〇全  | 大資工系        | 3    | 資電學士班        | 資電學院    |
-| 4107056002 | 許〇全  | 大資工系        | 3    | 小生技系         | 農資學院    |
-| 4107056012 | 黃〇凱  | 大資工系        | 8    | 大資工系         | 資電學院    |
-| 4107056012 | 黃〇凱  | 大資工系        | 8    | 資電學士班        | 資電學院    |
-| 4107056012 | 黃〇凱  | 大資工系        | 8    | 小生技系         | 農資學院    |
+|     ID     |  name  | pervert.dept | rank | college.dept | college    |
+| :--------: | :----: | :----------: | :--: | ------------ | ---------- |
+| 4107056002 | 許文全 |   大資工系   |  0   | 資工系       | 大資電學院 |
+| 4107056002 | 許文全 |   大資工系   |  0   | 資電學士班   | 大資電學院 |
+| 4107056002 | 許文全 |   大資工系   |  0   | 小生技系     | 小農資學院 |
+| 4107056003 | 林〇安 |   大資工系   |  1   | 大資工系     | 大資電學院 |
+| 4107056003 | 林〇安 |   大資工系   |  1   | 小資電學士班 | 大資電學院 |
+| 4107056003 | 林〇安 |   大資工系   |  1   | 小生技系     | 小農資學院 |
+| 4106030323 |  〇毅  |   小生技系   |  2   | 大資工系     | 大資電學院 |
+| 4106030323 |  〇毅  |   小生技系   |  2   | 小資電學士班 | 大資電學院 |
+| 4106030323 |  〇毅  |   小生技系   |  2   | 小生技系     | 小農資學院 |
 
 ### Join Operation ⋈
 
@@ -261,20 +233,20 @@ Notation:
 
 Query: 
 
-> $σ_{pervert.dept=college.dept} (pervert\ X\ college))$
-
+$$
+\sigma_{pervert.dept=college.dept} (pervert\ X\ college))
+$$
 or
 
 > $pervert ⋈_{pervert.dept=college.dept} college$
 
 Result:
 
-| ID         | name | pervert.dept | rank | college.dept | college |
-|:----------:|:----:|:------------:|:----:| ------------ | ------- |
-| 4106030323 | 〇毅   | 小生技系         | 2    | 小生技系         | 農資學院    |
-| 4107056003 | 林〇安  | 大資工系         | 1    | 大資工系         | 資電學院    |
-| 4107056002 | 許〇全  | 大資工系         | 3    | 大資工系         | 資電學院    |
-| 4107056012 | 黃〇凱  | 大資工系         | 8    | 大資工系         | 資電學院    |
+|     ID     |  name  | pervert.dept | rank | college.dept | college    |
+| :--------: | :----: | :----------: | :--: | ------------ | ---------- |
+| 4107056002 | 許文全 |   大資工系   |  0   | 大資工系     | 大電資學院 |
+| 4107056003 | 林〇安 |   大資工系   |  1   | 大資工系     | 大電資學院 |
+| 4106030323 |  〇毅  |   小生技系   |  2   | 小生技系     | 小農資學院 |
 
 ### Union Operation ∪
 
@@ -288,17 +260,15 @@ For $u \cup s$ to be valid.
 2. The attribute domains must be compatible (e.g. 2<sup>nd</sup> column of *r* deals with the same type of values as does the 2<sup>nd</sup> column of *s*)
 
 Query:
-
 $$
-∏_{name}(σ_{dept\_name="小生技系"}(pervert))\ \cup\ ∏_{name}(σ_{rank=3}(pervert))
+∏_{name}(σ_{dept\_name="大資工系"}(pervert))\ - ∏_{name}(σ_{rank<1}(pervert))
 $$
 
 result:
 
-| name |
-|:----:|
-| 〇毅   |
-| 游〇瑋  |
+|  name  |
+| :----: |
+| 林〇安 |
 
 ### Set Intersection Operation ∩
 
@@ -313,13 +283,15 @@ Assume:
 
 Query:
 
-> $∏_{name}(σ_{dept\_name="大資工系"}(pervert))\ \cap\ ∏_{name}(σ_{rank=1}(pervert))$
+$$
+∏_{name}(σ_{dept\_name="大資工系"}(pervert))\ \cap\ ∏_{name}(σ_{rank=1}(pervert))
+$$
 
 result:
 
-| name |
-|:----:|
-| 林〇安  |
+|  name  |
+| :----: |
+| 林〇安 |
 
 ### Set Difference Operation -
 
@@ -334,14 +306,14 @@ set difference must be taken between **compatible** relations.
 
 Query:
 
-> $∏_{name}(σ_{dept\_name="大資工系"}(pervert))\ - ∏_{name}(σ_{rank=1}(pervert))$
-
+$$
+∏_{name}(σ_{dept\_name="大資工系"}(pervert))\ - ∏_{name}(σ_{rank<1}(pervert))
+$$
 Result:
 
-| name |
-|:----:|
-| 游〇瑋  |
-| 黃〇凱  |
+|  name  |
+| :----: |
+| 林〇安 |
 
 ### The Assignment Operation ←
 
