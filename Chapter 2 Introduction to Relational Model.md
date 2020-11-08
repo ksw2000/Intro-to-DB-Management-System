@@ -2,20 +2,20 @@
 
 中興噁男排名 (pervert table)
 
-|     ID     |  name  | dept_name | rank |
-| :--------: | :----: | :-------: | :--: |
-| 4106030323 |  〇毅  | 小生技系  |  2   |
-| 4107056003 | 林〇安 | 大資工系  |  1   |
-| 4107056002 | 許〇全 | 大資工系  |  3   |
-| 4107056012 | 黃〇凱 | 大資工系  |  8   |
+| ID         | name | dept_name | rank |
+|:----------:|:----:|:---------:|:----:|
+| 4106030323 | 〇毅   | 小生技系      | 2    |
+| 4107056003 | 林〇安  | 大資工系      | 1    |
+| 4107056002 | 許〇全  | 大資工系      | 3    |
+| 4107056012 | 黃〇凱  | 大資工系      | 8    |
 
 學系學院對照表 (college table)
 
-| dept\_name | college  |
-| ---------- | -------- |
-| 大資工系   | 資電學院 |
-| 資電學士班 | 資電學院 |
-| 小生技系   | 農資學院 |
+| dept\_name | college |
+| ---------- | ------- |
+| 大資工系       | 資電學院    |
+| 資電學士班      | 資電學院    |
+| 小生技系       | 農資學院    |
 
 ## Relation Schema and Instance
 
@@ -47,19 +47,18 @@
   
   + instance:
     
-    |     ID     |  name  | dept_name | rank |
-    | :--------: | :----: | :-------: | :--: |
-    | 4106030323 |  〇毅  | 小生技系  |  2   |
-    | 4107056003 | 林〇安 | 大資工系  |  1   |
-    | 4107056002 | 許〇全 | 大資工系  |  3   |
-    | 4107056012 | 黃〇凱 | 大資工系  |  8   |
+    | ID         | name | dept_name | rank |
+    |:----------:|:----:|:---------:|:----:|
+    | 4106030323 | 〇毅   | 小生技系      | 2    |
+    | 4107056003 | 林〇安  | 大資工系      | 1    |
+    | 4107056002 | 許〇全  | 大資工系      | 3    |
+    | 4107056012 | 黃〇凱  | 大資工系      | 8    |
 
 **↑表2-1**
 
 ## Keys
 
 > 用來區別資料用的，比如組合語言中的 address, 物件導向中的 OID，資料庫中的 Key 就是一種 naming schema
-> 
 
 + Let $K \subset R$
 
@@ -88,11 +87,11 @@
   
   + e.g. pervert table 中的 dept\_name 是來自 department table 的 foreign key
 
-| dept\_name | college  |
-| ---------- | -------- |
-| 大資工系   | 資電學院 |
-| 資電學士班 | 資電學院 |
-| 小生技系   | 農資學院 |
+| dept\_name | college |
+| ---------- | ------- |
+| 大資工系       | 資電學院    |
+| 資電學士班      | 資電學院    |
+| 小生技系       | 農資學院    |
 
 another example:
 
@@ -153,9 +152,13 @@ six basic operation
 + select: σ 
 
 + project: ∏
+
 + union: ∪
+
 + set difference: –
+
 + Cartesian product: x
+
 + rename: ρ
 
 ### Select Operation σ
@@ -166,12 +169,12 @@ The "select" operation selects tuples that satisfy a given predicate.
 
 + p is called the **selection predicate**
 
-|     ID     |  name  | dept_name | rank |
-| :--------: | :----: | :-------: | :--: |
-| 4106030323 |  〇毅  | 小生技系  |  2   |
-| 4107056003 | 林〇安 | 大資工系  |  1   |
-| 4107056002 | 許〇全 | 大資工系  |  3   |
-| 4107056012 | 黃〇凱 | 大資工系  |  8   |
+| ID         | name | dept_name | rank |
+|:----------:|:----:|:---------:|:----:|
+| 4106030323 | 〇毅   | 小生技系      | 2    |
+| 4107056003 | 林〇安  | 大資工系      | 1    |
+| 4107056002 | 許〇全  | 大資工系      | 3    |
+| 4107056012 | 黃〇凱  | 大資工系      | 8    |
 
 Query: 
 
@@ -179,28 +182,28 @@ Query:
 
 Result:
 
-|     ID     |  name  | dept_name | rank |
-| :--------: | :----: | :-------: | :--: |
-| 4107056003 | 林〇安 | 大資工系  |  1   |
+| ID         | name | dept_name | rank |
+|:----------:|:----:|:---------:|:----:|
+| 4107056003 | 林〇安  | 大資工系      | 1    |
 
 ### Project Operation ∏
 
 A unary operation that returns its argument relation, with certain attributes left out.
 
 + Notation:  $∏_{A_1, A_2, A_3,...,A_k}(r)$
-
+  
   where $A_1, A_2, A_3,...,A_k$ are attribute names and $r$ is a relation name.
 
 + The result is defined as the relation of k column obtained by erasing the column that are not listed.
 
 + **Duplicated rows removed from result**, since relations are sets.
 
-|     ID     |  name  | dept_name | rank |
-| :--------: | :----: | :-------: | :--: |
-| 4106030323 |  〇毅  | 小生技系  |  2   |
-| 4107056003 | 林〇安 | 大資工系  |  1   |
-| 4107056002 | 許〇全 | 大資工系  |  3   |
-| 4107056012 | 黃〇凱 | 大資工系  |  8   |
+| ID         | name | dept_name | rank |
+|:----------:|:----:|:---------:|:----:|
+| 4106030323 | 〇毅   | 小生技系      | 2    |
+| 4107056003 | 林〇安  | 大資工系      | 1    |
+| 4107056002 | 許〇全  | 大資工系      | 3    |
+| 4107056012 | 黃〇凱  | 大資工系      | 8    |
 
 Query:
 
@@ -208,12 +211,12 @@ Query:
 
 Result:
 
-|  name  | rank |
-| :----: | :--: |
-|  〇毅  |  2   |
-| 林〇安 |  1   |
-| 游〇瑋 |  3   |
-| 黃〇凱 |  8   |
+| name | rank |
+|:----:|:----:|
+| 〇毅   | 2    |
+| 林〇安  | 1    |
+| 游〇瑋  | 3    |
+| 黃〇凱  | 8    |
 
 ### Cartesian-Product Operation X
 
@@ -225,20 +228,20 @@ Query:
 
 Result:
 
-|     ID     |  name  | pervet.dept | rank | college.dept | college  |
-| :--------: | :----: | :---------: | :--: | ------------ | -------- |
-| 4106030323 |  〇毅  |  小生技系   |  2   | 大資工系     | 資電學院 |
-| 4106030323 |  〇毅  |  小生技系   |  2   | 資電學士班   | 資電學院 |
-| 4106030323 |  〇毅  |  小生技系   |  2   | 小生技系     | 農資學院 |
-| 4107056003 | 林〇安 |  大資工系   |  1   | 大資工系     | 資電學院 |
-| 4107056003 | 林〇安 |  大資工系   |  1   | 資電學士班   | 資電學院 |
-| 4107056003 | 林〇安 |  大資工系   |  1   | 小生技系     | 農資學院 |
-| 4107056002 | 許〇全 |  大資工系   |  3   | 大資工系     | 資電學院 |
-| 4107056002 | 許〇全 |  大資工系   |  3   | 資電學士班   | 資電學院 |
-| 4107056002 | 許〇全 |  大資工系   |  3   | 小生技系     | 農資學院 |
-| 4107056012 | 黃〇凱 |  大資工系   |  8   | 大資工系     | 資電學院 |
-| 4107056012 | 黃〇凱 |  大資工系   |  8   | 資電學士班   | 資電學院 |
-| 4107056012 | 黃〇凱 |  大資工系   |  8   | 小生技系     | 農資學院 |
+| ID         | name | pervet.dept | rank | college.dept | college |
+|:----------:|:----:|:-----------:|:----:| ------------ | ------- |
+| 4106030323 | 〇毅   | 小生技系        | 2    | 大資工系         | 資電學院    |
+| 4106030323 | 〇毅   | 小生技系        | 2    | 資電學士班        | 資電學院    |
+| 4106030323 | 〇毅   | 小生技系        | 2    | 小生技系         | 農資學院    |
+| 4107056003 | 林〇安  | 大資工系        | 1    | 大資工系         | 資電學院    |
+| 4107056003 | 林〇安  | 大資工系        | 1    | 資電學士班        | 資電學院    |
+| 4107056003 | 林〇安  | 大資工系        | 1    | 小生技系         | 農資學院    |
+| 4107056002 | 許〇全  | 大資工系        | 3    | 大資工系         | 資電學院    |
+| 4107056002 | 許〇全  | 大資工系        | 3    | 資電學士班        | 資電學院    |
+| 4107056002 | 許〇全  | 大資工系        | 3    | 小生技系         | 農資學院    |
+| 4107056012 | 黃〇凱  | 大資工系        | 8    | 大資工系         | 資電學院    |
+| 4107056012 | 黃〇凱  | 大資工系        | 8    | 資電學士班        | 資電學院    |
+| 4107056012 | 黃〇凱  | 大資工系        | 8    | 小生技系         | 農資學院    |
 
 ### Join Operation ⋈
 
@@ -251,9 +254,9 @@ The "join" operation allows us to combine a "select" operation and a Cartesian-P
 Notation: 
 
 > $r⋈_{\theta} s = σ_{\theta}(r{\times}s)$
->
+> 
 > r and s are table name
->
+> 
 > $\theta$ is a condition
 
 Query: 
@@ -266,12 +269,12 @@ or
 
 Result:
 
-|     ID     |  name  | pervert.dept | rank | college.dept | college  |
-| :--------: | :----: | :----------: | :--: | ------------ | -------- |
-| 4106030323 |  〇毅  |   小生技系   |  2   | 小生技系     | 農資學院 |
-| 4107056003 | 林〇安 |   大資工系   |  1   | 大資工系     | 資電學院 |
-| 4107056002 | 許〇全 |   大資工系   |  3   | 大資工系     | 資電學院 |
-| 4107056012 | 黃〇凱 |   大資工系   |  8   | 大資工系     | 資電學院 |
+| ID         | name | pervert.dept | rank | college.dept | college |
+|:----------:|:----:|:------------:|:----:| ------------ | ------- |
+| 4106030323 | 〇毅   | 小生技系         | 2    | 小生技系         | 農資學院    |
+| 4107056003 | 林〇安  | 大資工系         | 1    | 大資工系         | 資電學院    |
+| 4107056002 | 許〇全  | 大資工系         | 3    | 大資工系         | 資電學院    |
+| 4107056012 | 黃〇凱  | 大資工系         | 8    | 大資工系         | 資電學院    |
 
 ### Union Operation ∪
 
@@ -289,12 +292,13 @@ Query:
 $$
 ∏_{name}(σ_{dept\_name="小生技系"}(pervert))\ \cup\ ∏_{name}(σ_{rank=3}(pervert))
 $$
+
 result:
 
-|  name  |
-| :----: |
-|  〇毅  |
-| 游〇瑋 |
+| name |
+|:----:|
+| 〇毅   |
+| 游〇瑋  |
 
 ### Set Intersection Operation ∩
 
@@ -313,9 +317,9 @@ Query:
 
 result:
 
-|  name  |
-| :----: |
-| 林〇安 |
+| name |
+|:----:|
+| 林〇安  |
 
 ### Set Difference Operation -
 
@@ -334,10 +338,10 @@ Query:
 
 Result:
 
-|  name  |
-| :----: |
-| 游〇瑋 |
-| 黃〇凱 |
+| name |
+|:----:|
+| 游〇瑋  |
+| 黃〇凱  |
 
 ### The Assignment Operation ←
 
@@ -354,17 +358,17 @@ It is convenient at times to write a relational-algebra expression by assigning 
 The results of relational-algebra expressions do not have a name that we can use to refer to them.
 
 + Notation: $ρ_x (E)$
-
+  
   returns the result of expression $E$ under the name $x$
 
 ---
 
 > **NOTE**
->
+> 
 > 1. $ρ_{disgusting} (E)$
->
+> 
 > 2. $disgusting ← E$
->
+> 
 > 這兩個所表達的意思不一樣，第 2 個是指在額外花一個空間去存，而第 1 個則只是更名而已
 
 ### Equivalent Queries
