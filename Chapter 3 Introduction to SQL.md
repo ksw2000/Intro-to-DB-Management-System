@@ -39,9 +39,9 @@ Commercial system offer most, if not all, SQL-92 features, plus varying feature 
 
 4. Embedded SQL and dynamic SQL(dynamic: 像直譯器一樣翻譯一行直行一行...) -- 把 SQL 放進一般的程式中。dynamic sql，程式執行時可以將sql做更改
 
-### DDL
+## DDL
 
-#### Domains in SQL
+### Domains in SQL
 
 + `char(n)`. Fixed length character string, with user-specified length n.
 
@@ -57,7 +57,7 @@ Commercial system offer most, if not all, SQL-92 features, plus varying feature 
 
 + `float(n)`. Floating point number, with user-specified precision of at least n digits.
 
-#### Schema operation
+### Schema operation
 
 + create table
   
@@ -137,9 +137,9 @@ pervert_2020:
 | 4107056006 | 游〇瑋  | 資電學院    |
 | 4106030323 | 〇毅   | 農資學院    |
 
-### DML:  Basic Query Structure
+## DML:  Basic Query Structure
 
-#### Select
+### Select
 
 + correspond to the **project operation** of the relational algebra
 
@@ -181,7 +181,7 @@ pervert_2020:
   | 林〇安  |
   | 游〇瑋  |
 
-##### Self-join
+#### Self-join
 
 consider the table *emp-super*  ── 該範例附有 SQLite 可供實作
 
@@ -216,7 +216,7 @@ consider the table *emp-super*  ── 該範例附有 SQLite 可供實作
   
   You need a recursive query language, SQL 做不到 (要使用 logic program)
 
-##### String operation
+#### String operation
 
 + percent (%) The % character matches any substring. 
   
@@ -241,7 +241,7 @@ consider the table *emp-super*  ── 該範例附有 SQLite 可供實作
   + _ _ _ matches any string of exactly three characters
   + _ _ _ % matches any string of at least three characters
 
-##### Order
+#### Order
 
 ASC: ascending ／ DESC: descending
 
@@ -251,9 +251,9 @@ SELECT name FROM pervert ORDER BY rank ASC
 SELECT name FROM pervert ORDER BY rank DESC
 ```
 
-#### Where
+### Where
 
-##### Between
+#### Between
 
 ```sql
 SELECT name FROM pervert WHERE rank BETWEEN 0 and 3
@@ -261,7 +261,7 @@ SELECT name FROM pervert WHERE rank BETWEEN 0 and 3
 
 Finding rank ≥ 0 and rank ≤ 3
 
-##### Tuple comparison
+#### Tuple comparison
 
 ```sql
 SELECT name, college FROM pervert, college WHERE
@@ -273,7 +273,7 @@ SELECT name, college FROM pervert, college WHERE
 | 林〇安  | 資電學院    |
 | 許〇全  | 資電學院    |
 
-##### Set operation
+#### Set operation
 
 使用 union, intersect, except 計算時，視為數學上的集合，應此不可以有 duplicate 出現。如果不考慮 duplicate 有沒有出現可以改用 union all, intersect all, except all
 
@@ -297,7 +297,7 @@ EXCEPT
 SELECT name FROM pervert WHERE dept_name = "生技系"
 ```
 
-##### Null values
+#### Null values
 
 It is possible for tuples to have a null value, denoted by null, for some of their attributes.
 null signifies an unknown value or that a value does not exist.
@@ -359,7 +359,7 @@ The predicate `is null` can be used to check null values
 >   
 >   null >= 3 為 Unknown 做 NOT 變為 Unknown ，因為最後無法繼續計算所以當做 FALSE
 
-#### Aggregate Functions
+### Aggregate Functions
 
 > `avg` `min` `max` `sum` `count`
 > 
@@ -373,7 +373,7 @@ SELECT count(distinct name) FROM pervert WHERE yy = 2019
 SELECT count(*) FROM college
 ```
 
-##### Group By
+#### Group By
 
 | ID         | name | dept_name | rank | yy   |
 |:----------:|:----:|:---------:|:----:|:----:|
@@ -405,7 +405,7 @@ ERROR: 因為 name 不在 Group name 裡面
 
 <mark>實際實作時並不會出錯，有待確認</mark> [See: StackOverflow](https://stackoverflow.com/questions/19601948/must-appear-in-the-group-by-clause-or-be-used-in-an-aggregate-function)
 
-##### Having
+#### Having
 
 ```sql
 SELECT yy, COUNT(*) as num FROM pervert GROUP BY yy HAVING num > 2
@@ -415,9 +415,9 @@ SELECT yy, COUNT(*) as num FROM pervert GROUP BY yy HAVING num > 2
 | ---- | --- |
 | 2020 | 4   |
 
-#### Nested Subqueries & Set Membership
+### Nested Subqueries & Set Membership
 
-##### in
+#### in
 
 + 查找 2019資工噁男和2020生技噁男
 
@@ -477,9 +477,7 @@ WHERE(course_id, sec_id, semester, year) in (
 );
 ```
 
----
-
-##### some
+#### some
 
 > 該指令於 sqlite 不適用
 
@@ -502,7 +500,7 @@ WHERE(course_id, sec_id, semester, year) in (
 
 > some 的邏輯類似於 or 只要有一個條件符合就會回傳 true
 
-##### all
+#### all
 
 > 該指令於 sqlite 不適用
 
@@ -518,7 +516,7 @@ WHERE(course_id, sec_id, semester, year) in (
 
 > all 的邏輯類似於 and 必需所有條件都符合才會回傳 true
 
-##### with
+#### with
 
 + The **with** clause provides a way of defining a temporary relation whose definition is available only the query in which the with clause occurs.
 + with 類似 view, view 存在 data dictionary 裡面, with 則是 temporary 的 view
@@ -536,7 +534,7 @@ WHERE name = the_most_pervert_2019.his_name
 | 林〇安  | 0    | 2019 |
 | 林〇安  | 1    | 2020 |
 
-##### exists
+#### exists
 
 + 回傳 true / false
 + 查找其系所所屬之院含有「電」的噁男的名字
@@ -556,7 +554,7 @@ WHERE exists(
 | 游〇瑋  |
 | 許〇全  |
 
-##### unique
+#### unique
 
 | ID         | Month | Date |
 |:----------:|:-----:|:----:|
@@ -583,7 +581,7 @@ WHERE exists(
 > )
 > ```
 
-##### scalar subquery
+#### scalar subquery
 
 + Scalar subquery is one which is used where a single value is expected
 + List all departments along with the number of instructors in each department
@@ -595,14 +593,14 @@ SELECT dept_name, (
 FROM department
 ```
 
-#### Modification of the db
+### Modification of the db
 
 > 注意一件事情 database 採用靜態的方式在更動資料，當一個複雜的 query 在執行時，下一筆資料並不會受前一筆資料的更動而受影響
 >
 > // TODO
 > **For example:**
 
-##### deletion
+#### deletion
 
 > 刪除所有 name 為「林〇安」的記錄
 
@@ -610,7 +608,7 @@ FROM department
 DELETE FROM pervert WHERE name = "林〇安"
 ```
 
-##### insertion
+#### insertion
 
 > 新增一筆
 
@@ -626,7 +624,7 @@ INSERT INTO pervert(ID, name, dept_name, rank, yy)
 VALUES (4108056020, "談〇傑", "資工系", 10, 2020)
 ```
 
-##### update
+#### update
 
 > 更新一筆 (2020年的許〇全太噁要再調整 rank)
 
