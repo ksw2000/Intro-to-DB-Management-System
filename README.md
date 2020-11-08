@@ -18,4 +18,4 @@ SQL example
 
 Software: [DB Browder for SQLite](https://sqlitebrowser.org/)
 
-![](D:/GoogleDrive/109學年度(上)/DBM System/src/3-1.png)
+![](./src/3-1.png)
