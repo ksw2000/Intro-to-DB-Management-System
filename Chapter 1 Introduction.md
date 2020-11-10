@@ -22,10 +22,10 @@
 
 使用者可以直接更改資料庫，或透過別人寫好的程式去操作
 
-| 架構又下到上                 |
+| 架構由下到上                 |
 | ---------------------------- |
-| user                         |
-| application                  |
+| User                         |
+| Application                  |
 | DBMS (buffer / file manager) |
 | OS (buffer / file manager)   |
 | CPU / Disk                   |
