@@ -11,6 +11,10 @@ This is my note for "introduction to database management system" lessons
    1. [Chapter 2 Introduction to Relational Model.md](https://github.com/liao2000/Intro-to-DB-Management-System/blob/main/Chapter%202%20Introduction%20to%20Relational%20Model.md)
 3. Introduction to SQL
    1. [Chapter 3 Introduction to SQL.md](https://github.com/liao2000/Intro-to-DB-Management-System/blob/main/Chapter%203%20Introduction%20to%20SQL.md)
+4. Database Design Using the E-R model
+   1. [Chapter 6 Database Design Using the E-R model.md](https://github.com/liao2000/Intro-to-DB-Management-System/blob/main/Chapter%206%20Database%20Design%20Using%20the%20E-R%20model.md)
+5. Normalization
+   1. [Chapter 7 Normalization.md](https://github.com/liao2000/Intro-to-DB-Management-System/blob/main/Chapter%207%20Normalization.md)
 
 ## Implementation on SQLite
 
